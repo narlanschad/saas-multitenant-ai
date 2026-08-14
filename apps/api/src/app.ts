@@ -5,6 +5,7 @@ import { env } from './config/env.js';
 import { logger } from './lib/logger.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { authRouter } from './modules/auth/routes.js';
+import { productsRouter } from './modules/products/routes.js';
 
 export function createApp() {
   const app = express();
@@ -18,6 +19,7 @@ export function createApp() {
   });
 
   app.use('/auth', authRouter);
+  app.use('/products', productsRouter);
 
   app.use((_req, res) => {
     res.status(404).json({ error: 'Route not found' });
