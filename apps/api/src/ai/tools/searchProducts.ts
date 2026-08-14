@@ -25,7 +25,7 @@ export const searchProductsTool: ChatCompletionTool = {
   },
 };
 
-interface SearchProductsArgs {
+export interface SearchProductsArgs {
   query?: string;
   category?: string;
   minPrice?: number;
