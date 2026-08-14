@@ -3,6 +3,8 @@ import express from 'express';
 import { pinoHttp } from 'pino-http';
 import { env } from './config/env.js';
 import { logger } from './lib/logger.js';
+import { errorHandler } from './middlewares/errorHandler.js';
+import { authRouter } from './modules/auth/routes.js';
 
 export function createApp() {
   const app = express();
@@ -14,6 +16,14 @@ export function createApp() {
   app.get('/health', (_req, res) => {
     res.status(200).json({ status: 'ok' });
   });
+
+  app.use('/auth', authRouter);
+
+  app.use((_req, res) => {
+    res.status(404).json({ error: 'Route not found' });
+  });
+
+  app.use(errorHandler);
 
   return app;
 }
