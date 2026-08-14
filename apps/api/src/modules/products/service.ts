@@ -9,7 +9,7 @@ export function listProducts(companyId: string, filters: ProductFilters) {
 export async function getProduct(companyId: string, productId: string) {
   const product = await productRepository.findById(companyId, productId);
   if (!product) {
-    throw new NotFoundError('Product not found');
+    throw new NotFoundError('Produto não encontrado');
   }
   return product;
 }
@@ -25,7 +25,7 @@ export async function updateProduct(
 ) {
   const product = await productRepository.updateById(companyId, productId, input);
   if (!product) {
-    throw new NotFoundError('Product not found');
+    throw new NotFoundError('Produto não encontrado');
   }
   return product;
 }
@@ -33,6 +33,6 @@ export async function updateProduct(
 export async function deleteProduct(companyId: string, productId: string) {
   const product = await productRepository.deleteById(companyId, productId);
   if (!product) {
-    throw new NotFoundError('Product not found');
+    throw new NotFoundError('Produto não encontrado');
   }
 }
