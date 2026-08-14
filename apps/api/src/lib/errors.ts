@@ -16,19 +16,19 @@ export class ValidationError extends AppError {
 }
 
 export class UnauthorizedError extends AppError {
-  constructor(message = 'Authentication required') {
+  constructor(message = 'Autenticação necessária') {
     super(message, 401);
   }
 }
 
 export class ForbiddenError extends AppError {
-  constructor(message = 'Insufficient permissions') {
+  constructor(message = 'Permissões insuficientes') {
     super(message, 403);
   }
 }
 
 export class NotFoundError extends AppError {
-  constructor(message = 'Resource not found') {
+  constructor(message = 'Recurso não encontrado') {
     super(message, 404);
   }
 }

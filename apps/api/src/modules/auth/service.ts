@@ -23,7 +23,7 @@ interface AuthResult {
 export async function register(input: z.infer<typeof registerSchema>): Promise<AuthResult> {
   const existing = await UserModel.findOne({ email: input.email });
   if (existing) {
-    throw new ConflictError('An account with this email already exists');
+    throw new ConflictError('Já existe uma conta com este email');
   }
 
   const company = await CompanyModel.create({ name: input.companyName });
@@ -60,17 +60,17 @@ export async function login(input: z.infer<typeof loginSchema>): Promise<AuthRes
   const user = await UserModel.findOne({ email: input.email }).select('+passwordHash');
 
   if (!user) {
-    throw new UnauthorizedError('Invalid email or password');
+    throw new UnauthorizedError('Email ou senha inválidos');
   }
 
   const passwordMatches = await bcrypt.compare(input.password, user.passwordHash);
   if (!passwordMatches) {
-    throw new UnauthorizedError('Invalid email or password');
+    throw new UnauthorizedError('Email ou senha inválidos');
   }
 
   const company = await CompanyModel.findById(user.companyId);
   if (!company) {
-    throw new UnauthorizedError('Invalid email or password');
+    throw new UnauthorizedError('Email ou senha inválidos');
   }
 
   const token = signAuthToken({

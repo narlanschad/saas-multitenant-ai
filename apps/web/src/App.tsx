@@ -1,8 +1,24 @@
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { ChatPage } from './features/chat/ChatPage';
+import { LoginPage } from './features/auth/LoginPage';
+import { RegisterPage } from './features/auth/RegisterPage';
+import { ProductsPage } from './features/products/ProductsPage';
+import { AppLayout } from './layout/AppLayout';
+import { ProtectedRoute } from './routes/ProtectedRoute';
+
 function App() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <p className="text-slate-500">SaaS Multi-Tenant AI — under construction</p>
-    </div>
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route element={<ProtectedRoute />}>
+        <Route element={<AppLayout />}>
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/chat" element={<ChatPage />} />
+        </Route>
+      </Route>
+      <Route path="*" element={<Navigate to="/products" replace />} />
+    </Routes>
   );
 }
 

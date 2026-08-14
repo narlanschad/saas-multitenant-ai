@@ -24,7 +24,7 @@ export function createApp() {
   app.use('/chat', chatRouter);
 
   app.use((_req, res) => {
-    res.status(404).json({ error: 'Route not found' });
+    res.status(404).json({ error: 'Rota não encontrada' });
   });
 
   app.use(errorHandler);

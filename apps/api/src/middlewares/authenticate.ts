@@ -13,7 +13,7 @@ export function authenticate(req: Request, _res: Response, next: NextFunction) {
   try {
     req.auth = verifyAuthToken(token);
   } catch {
-    throw new UnauthorizedError('Invalid or expired token');
+    throw new UnauthorizedError('Token inválido ou expirado');
   }
 
   next();

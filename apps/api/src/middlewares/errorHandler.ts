@@ -14,16 +14,16 @@ export function errorHandler(err: unknown, req: Request, res: Response, _next: N
   }
 
   if (err instanceof mongoose.Error.CastError) {
-    res.status(404).json({ error: 'Resource not found' });
+    res.status(404).json({ error: 'Recurso não encontrado' });
     return;
   }
 
   const mongoError = err as MongoServerError;
   if (mongoError.code === 11000) {
-    res.status(409).json({ error: 'Resource already exists' });
+    res.status(409).json({ error: 'Este recurso já existe' });
     return;
   }
 
   logger.error({ err, path: req.path }, 'Unhandled error');
-  res.status(500).json({ error: 'Internal server error' });
+  res.status(500).json({ error: 'Erro interno do servidor' });
 }

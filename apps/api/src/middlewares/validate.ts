@@ -13,7 +13,7 @@ export function validate(schemas: ValidationSchemas) {
     if (schemas.body) {
       const result = schemas.body.safeParse(req.body);
       if (!result.success) {
-        throw new ValidationError('Invalid request body', result.error.flatten());
+        throw new ValidationError('Corpo da requisição inválido', result.error.flatten());
       }
       req.body = result.data;
     }
@@ -21,7 +21,7 @@ export function validate(schemas: ValidationSchemas) {
     if (schemas.params) {
       const result = schemas.params.safeParse(req.params);
       if (!result.success) {
-        throw new ValidationError('Invalid request parameters', result.error.flatten());
+        throw new ValidationError('Parâmetros da requisição inválidos', result.error.flatten());
       }
       req.params = result.data as typeof req.params;
     }
@@ -29,7 +29,7 @@ export function validate(schemas: ValidationSchemas) {
     if (schemas.query) {
       const result = schemas.query.safeParse(req.query);
       if (!result.success) {
-        throw new ValidationError('Invalid query parameters', result.error.flatten());
+        throw new ValidationError('Parâmetros de busca inválidos', result.error.flatten());
       }
       Object.assign(req.query, result.data);
     }
