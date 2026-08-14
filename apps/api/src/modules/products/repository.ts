@@ -18,14 +18,22 @@ export interface CreateProductInput {
 // Every method below requires companyId as an explicit argument rather than
 // an optional filter, so a caller cannot accidentally omit tenant scoping.
 
+function escapeRegex(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 export function findAll(companyId: string, filters: ProductFilters = {}) {
   const mongoFilter: Record<string, unknown> = { companyId };
 
   if (filters.query) {
-    mongoFilter.name = { $regex: filters.query, $options: 'i' };
+    const pattern = escapeRegex(filters.query);
+    mongoFilter.$or = [
+      { name: { $regex: pattern, $options: 'i' } },
+      { description: { $regex: pattern, $options: 'i' } },
+    ];
   }
   if (filters.category) {
-    mongoFilter.category = filters.category;
+    mongoFilter.category = { $regex: `^${escapeRegex(filters.category)}$`, $options: 'i' };
   }
   if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
     mongoFilter.price = {
@@ -35,6 +43,10 @@ export function findAll(companyId: string, filters: ProductFilters = {}) {
   }
 
   return ProductModel.find(mongoFilter).sort({ createdAt: -1 });
+}
+
+export function findDistinctCategories(companyId: string): Promise<string[]> {
+  return ProductModel.distinct('category', { companyId });
 }
 
 export function findById(companyId: string, productId: string) {
