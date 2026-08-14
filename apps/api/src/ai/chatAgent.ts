@@ -5,7 +5,7 @@ import { openrouter } from './openrouterClient.js';
 import { executeSearchProducts, searchProductsTool, type ToolExecutionContext } from './tools/searchProducts.js';
 
 const MAX_TOOL_ROUNDS = 4;
-const FALLBACK_REPLY = 'Sorry, I was not able to find an answer to that question.';
+const FALLBACK_REPLY = 'Desculpe, não consegui encontrar uma resposta para essa pergunta.';
 
 function buildSystemPrompt(categories: string[]): string {
   const categoryHint =
@@ -17,7 +17,7 @@ function buildSystemPrompt(categories: string[]): string {
 You can only answer questions about that company's own product catalog, using the search_products tool — never invent products, prices, or availability, and never claim knowledge of any other company's data.
 ${categoryHint}
 If a search returns no results, tell the user plainly instead of leaving your answer empty.
-Always reply in the same language the user wrote in. Be concise.`;
+Always reply in the same language the user wrote in, defaulting to Brazilian Portuguese if unclear. Be concise.`;
 }
 
 export async function runChatAgent(message: string, context: ToolExecutionContext): Promise<string> {
